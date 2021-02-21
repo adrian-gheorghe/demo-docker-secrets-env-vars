@@ -1,0 +1,18 @@
+version: '3.8'
+secrets:
+  my_password_secret:
+    external: true
+services:
+  php:
+    image: secrets_php:latest
+    build:
+      context: "./docker/php"
+      args: { }
+    command: "php /var/www/html/index.php"
+    deploy:
+      restart_policy:
+        condition: on-failure
+    environment:
+      MY_PASSWORD_SECRET_FILE: /run/secrets/my_password_secret
+    secrets:
+      - my_password_secret
